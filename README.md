@@ -63,7 +63,7 @@ docker-compose down
 
 # Live chat
 
-In [docker-compose.yml#L25](docker-compose.yml#L21), we exposed port **20019** for live-chat on host.
+In [docker-compose.yml#L25](docker-compose.yml#L25), we exposed port **20019** for live-chat on host.
 
 Configuring **nginx** to activate live chat feature (in production):
 
