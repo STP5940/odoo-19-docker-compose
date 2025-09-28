@@ -1,0 +1,53 @@
+services:
+
+  db:
+    image: postgres:18
+    container_name: odoo19-postgres
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo19@2025
+      - POSTGRES_DB=postgres
+    restart: always  # run as a service
+    ports:
+      - "5432:5432"  # expose the default port
+    volumes:
+        - ./postgresql:/var/lib/postgresql
+
+  odoo19:
+    build: .         # build from Dockerfile
+    container_name: odoo19
+    user: root
+    depends_on:
+      - db
+    ports:
+      - "10019:8069"
+      - "20019:8072" # live chat
+    tty: true
+    command: --
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo19@2025
+      - PIP_BREAK_SYSTEM_PACKAGES=1
+    volumes:
+      - ./fonts:/usr/share/fonts/custom
+      - ./addons:/mnt/extra-addons
+      - ./etc:/etc/odoo
+    restart: always   # run as a service
+
+  pgadmin:
+    image: dpage/pgadmin4:9.8
+    container_name: odoo19-pgadmin
+    depends_on:
+      - db
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    restart: always
+
+volumes:
+  pgadmin-data:
