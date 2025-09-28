@@ -3,6 +3,7 @@ services:
   db:
     image: postgres:18
     container_name: odoo19-postgres
+    user: root
     environment:
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=odoo19@2025
@@ -33,7 +34,7 @@ services:
       - ./fonts:/usr/share/fonts/custom
       - ./addons:/mnt/extra-addons
       - ./etc:/etc/odoo
-    restart: always   # run as a service
+    restart: always  # run as a service
 
   pgadmin:
     image: dpage/pgadmin4:9.8
@@ -47,7 +48,7 @@ services:
       - "5050:80"
     volumes:
       - pgadmin-data:/var/lib/pgadmin
-    restart: always
+    restart: always  # run as a service
 
 volumes:
   pgadmin-data:
